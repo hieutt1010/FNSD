@@ -1,0 +1,28 @@
+2024-12-01 15:23:04,689 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-12-01 15:23:04,689 [INFO] [33mPress CTRL+C to quit[0m
+2024-12-01 15:23:04,690 [INFO]  * Restarting with stat
+2024-12-01 15:23:05,487 [WARNING]  * Debugger is active!
+2024-12-01 15:23:05,493 [INFO]  * Debugger PIN: 144-667-652
+2024-12-01 15:23:07,548 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:07] "[31m[1mDELETE /movies/1 HTTP/1.1[0m" 405 -
+2024-12-01 15:23:19,851 [INFO]  * Detected change in 'D:\\Udacity\\FSND_Capstone\\backend\\app\\__init__.py', reloading
+2024-12-01 15:23:19,898 [INFO]  * Restarting with stat
+2024-12-01 15:23:20,739 [WARNING]  * Debugger is active!
+2024-12-01 15:23:20,746 [INFO]  * Debugger PIN: 144-667-652
+2024-12-01 15:23:22,599 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:22] "[31m[1mDELETE /movies/1 HTTP/1.1[0m" 405 -
+2024-12-01 15:23:27,428 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:27] "GET /movies/1 HTTP/1.1" 200 -
+2024-12-01 15:23:31,120 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:31] "POST /movies HTTP/1.1" 200 -
+2024-12-01 15:23:36,002 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:36] "GET /movies HTTP/1.1" 200 -
+2024-12-01 15:23:40,920 [INFO] 127.0.0.1 - - [01/Dec/2024 15:23:40] "[31m[1mDELETE /movies/1 HTTP/1.1[0m" 405 -
+2024-12-01 15:24:19,197 [INFO]  * Detected change in 'D:\\Udacity\\FSND_Capstone\\backend\\app\\__init__.py', reloading
+2024-12-01 15:24:19,250 [INFO]  * Restarting with stat
+2024-12-01 15:24:21,229 [INFO]  * Restarting with stat
+2024-12-01 15:24:23,131 [INFO]  * Restarting with stat
+2024-12-01 15:24:30,238 [INFO]  * Restarting with stat
+2024-12-01 15:26:54,601 [INFO]  * Restarting with stat
+2024-12-01 15:27:06,763 [INFO]  * Restarting with stat
+2024-12-01 15:29:33,258 [INFO]  * Restarting with stat
+2024-12-01 15:30:13,248 [INFO]  * Restarting with stat
+2024-12-01 15:30:31,665 [INFO]  * Restarting with stat
+2024-12-01 15:30:33,570 [INFO]  * Restarting with stat
+2024-12-01 15:30:36,633 [INFO]  * Restarting with stat

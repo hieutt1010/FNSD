@@ -1,0 +1,1 @@
+https://hieutt.us.auth0.com/authorize?audience=FSND_Image&response_type=token&client_id=atWrH86W0yNtXe8I4sGywMzzTn8DEGuM&redirect_uri=https://127.0.0.1:5000/login-results

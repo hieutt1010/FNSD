@@ -1,0 +1,16 @@
+-- Create the "movies" table
+CREATE TABLE movies (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    release_date DATE NOT NULL
+);
+
+-- Create the "actors" table
+CREATE TABLE actors (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    movie_id INT,
+    CONSTRAINT fk_movie FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
