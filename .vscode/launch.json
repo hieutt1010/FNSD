@@ -11,7 +11,7 @@
             "module": "flask",
             "env": {
                 // "FLASK_APP": "app\\test_app.py",
-                "FLASK_APP": "__init__.py",
+                "FLASK_APP": "app.py",
                 "FLASK_DEBUG": "1"
             },
             "args": [
