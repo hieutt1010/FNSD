@@ -1,5 +1,11 @@
+# =============DEPLOY PROJECT USING RENDER=============
+
+# URL location for the hosted API
+https://fsnd-capstone-4vmj.onrender.com/
+
 # Link get bearer token and accunt for each role
   - Link get token: https://hieutt.us.auth0.com/authorize?audience=FSND_Image&response_type=token&client_id=atWrH86W0yNtXe8I4sGywMzzTn8DEGuM&redirect_uri=https://127.0.0.1:5000/login-results
+
 # Role - Account(acc/pass):
   - Casting Assistant: trtrghieu@gmail.com - Lucario1231@
   - Casting Director: hieutt@gmail.com - Lucario1231@
