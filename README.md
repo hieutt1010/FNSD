@@ -1,26 +1,89 @@
-# =============DEPLOY PROJECT USING RENDER=============
+#  Casting Agency Project
 
-# URL location for the hosted API
+## About
+Welcome to the Casting Agency Project, a powerful API designed to streamline the management of actors and movies. This system enables casting professionals to efficiently add, modify, and view their database, ensuring secure access with Role-Based Access Control (RBAC).
+## Getting Started
+
+### Installing Dependencies
+
+#### Python 3.7.0
+
+Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
+
+#### PIP Dependencies
+
+In the warranty-tracker directory, run the following to install all necessary dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+This will install all of the required packages.
+
+##### Key Dependencies
+
+- [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
+
+- [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py. 
+
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server. 
+
+## Running the server
+To run the server, execute:
+```
+python -m flask run
+```
+We can now also open the application via Render using the URL:
 https://fsnd-capstone-4vmj.onrender.com/
 
-# Link get bearer token and accunt for each role
-  - Link get token: https://hieutt.us.auth0.com/authorize?audience=FSND_Image&response_type=token&client_id=atWrH86W0yNtXe8I4sGywMzzTn8DEGuM&redirect_uri=https://127.0.0.1:5000/login-results
+The live application can only be used to generate tokens via Auth0, the endpoints have to be tested using curl or Postman 
+using the token since I did not build a frontend for the application.
 
+## DATA MODELING:
+#### models.py
+The schema for the database and helper methods to simplify API behavior are in models.py:
+- There are three tables created: Movies, Actor
+- The Actor table has a foreign key on the User table for movie_id.
+Each table has an insert, update, delete, and format helper functions.
+
+## Roles and the permissions
+@app.errorhandler decorators were used to format error responses as JSON objects. 
+Custom @requires_auth decorator were used for Authorization based on roles of the user. 
+Three roles are assigned to this API: 'Casting Assistant' and 'Casting Director' and 'Executive Producer'.
+- Casting Assistant: 
+    Can view actors and movies
+- Casting Director
+    All permissions a Casting Assistant has and…
+    Add or delete an actor from the database
+    Modify actors or movies
+- Executive Producer
+    All permissions a Casting Director has and…
+    Add or delete a movie from the database
+
+A token needs to be passed to each endpoint.
+The token can be retrived by following these steps:
+  - Go to: https://hieutt.us.auth0.com/authorize?audience=FSND_Image&response_type=token&client_id=atWrH86W0yNtXe8I4sGywMzzTn8DEGuM&redirect_uri=https://127.0.0.1:5000/login-results
+  - Login to each account below to get the token for each role
 # Role - Account(acc/pass):
   - Casting Assistant: trtrghieu@gmail.com - Lucario1231@
   - Casting Director: hieutt@gmail.com - Lucario1231@
   - Executive Producer: hieutt101020@gmail.com - Lucario1231@
+  - Link to get token store in Auth.txt
 
-# Token for each role (Epired after 30 day) Today(07/12/2024)
-  - "casting_assistant": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.  eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjZmYTRiOGM3YjIyZGM3ZGM0ODAxN2M4IiwiYXVkIjoiRlNORF9JbWFnZSIsImlhdCI6MTczMzU1OTgxMSwiZXhwIjoxNzMzNTk1ODExLCJzY29wZSI6IiIsImF6cCI6ImF0V3JIODZXMHlOdFhlOEk0c0d5d016elRuOERFR3VNIiwicGVybWlzc2lvbnMiOlsicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.XEWL1ovEftV2Q_mShMgqULa944eOJu4RWtNHZSXKJ3ybiTXSEr07VQRz78oJYwpSb3nBgmEWn0H8ts6Jf753MXEfCeKM1sMZY1fFedMMq_Lk8RRMNaZKDwthI28kAPxB0ztNozjnWQHdssRJEZWSXF6iTAYAUe99cInQ9r_XvbX1RBShC32fHTuRzn9AP4yBh8mGRc1WmQvzuPNp2JN7BaQn07SBjQ3Dv76oxM4NeMdoMy5Yj19DEE2AlcTuxavCoSKZxKwNE2417a-4pz2CkZWA_qH5E4321KjtQSBQlKlbd8C79baR6tgfLx_LnjrS_7hVMA3J_A14rpZhemhb4Q",
+### Endpoint for Actors/Movies include permissions associated for each request
+  Project includes a custom @requires_auth decorator that:
+  get the Authorization header from the request
+  Decode and verify the JWT using the Auth0 secret
+  take an argument to describe the action
+  i.e. @require_auth(‘create:drink’)
 
-  - "casting_director": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTYzMTUxNjcwNDQ4MDUyNDYxNDgiLCJhdWQiOiJGU05EX0ltYWdlIiwiaWF0IjoxNzMzNTU5ODc1LCJleHAiOjE3MzM1OTU4NzUsInNjb3BlIjoiIiwiYXpwIjoiYXRXckg4NlcweU50WGU4STRzR3l3TXp6VG44REVHdU0iLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGU6YWN0b3JzIiwiZGVsZXRlOmFjdG9ycyIsIm1vZGlmeTphY3RvcnMiLCJtb2RpZnk6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.NgtD4-g0oHA35w7I_Y69c4FVp8G-c3zicqGNbZLWMW9De64-J1b7C788vvLzez6rfi_KyWCOGelK-OqJ_zgr8TURaepnhlc3PIbtG5kWH3twZT-UmcYJQePGZ_0Tmrfr3hj56KLUtd0RHjQpqTxCyXfLpTTT3LIEgZop1gm4oozwdBZpapS55zw9CyZEx5QIhjrKNuMCd51Z1XdnWq89eQihn1LCJQPQOgvwPesCZ0UekwLdVa_zEBdGgzXt2D5BxV4GngJERfnRHwpr91AP0EVawyJgxM_siHdZ4sC8seTXgN3A0mLFY7ZewPMNK3VGvFg6dhNfdG7nP1K2f7wquw",
+  raise an error if:
+    the token is expired
+    the claims are invalid
+    the token is invalid
+    the JWT doesn’t contain the proper action
 
-  - "executive_producer": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8Njc0YmZjZjQ1ZWM4NGQzNzJhZDU2Zjg2IiwiYXVkIjoiRlNORF9JbWFnZSIsImlhdCI6MTczMzU1OTkzMywiZXhwIjoxNzMzNTk1OTMzLCJzY29wZSI6IiIsImF6cCI6ImF0V3JIODZXMHlOdFhlOEk0c0d5d016elRuOERFR3VNIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlOmFjdG9ycyIsImNyZWF0ZTptb3ZpZXMiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsIm1vZGlmeTphY3RvcnMiLCJtb2RpZnk6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.eDhUPuahunYTdT_lRhy3wkPA3mpatC55OLV10jxf6ggIrsCgC_uaz2QjNrHpN2ZdFps61-l_rfvk34qS7UV84_pfrO6Ilt6XVbqWb8pV2jtuzQ8igMcjxXeBUUeZ0mwpWrC3EMBolb2n3b5QUQdgka5lD4kgk10dTFxtoKlksyDGNB5LJ4EjQzGHx5p1HpIrLOoB3KBaZLm5xpcyPzPu-vYhxqsovJQwYm3bh5pqVqh4_Y-zlNjRhsir4nbieBT6QWWlMZ7jpsDW4nhFZEKeyR32OYYXk2mCFVhygdU9WGSIELj7fGiI73J6oB1GcGQoHiRahvyFi9Oob6vt0GQDRw",
-
-### Endpoint for /Movies
-
-`GET '/actors'`
+`GET '/movies'`
+- @requires_auth('read:movies')
 - Fetches a list of actors
 - Request Arguments: None
 - Returns: list of actors contain id, title, release_date
@@ -46,6 +109,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `GET/movies/<int:id>`
+- @requires_auth('read:movies')
 - Get a special movie by id
 - Request Arguments: `id` - integer
 - Returns: a movie object
@@ -58,6 +122,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `POST/movies`
+- @requires_auth('create:movies')
 - This endpoint creates a new movie
 - Request Body:
 ```json
@@ -79,6 +144,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `PATCH/movies/<int:id>`
+- @requires_auth('modify:movies')
 - This endpoint updates the information of an existing movie by `id`
 - Request Body:
 ```json
@@ -99,6 +165,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `DELETE/movies/<int:id>`
+- @requires_auth('delete:movies')
 - This endpoint deletes a movie by `id`
 - Request Arguments: `id` - integer
 - Returns: a single movie object deleted and message-status
@@ -115,6 +182,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ### Endpoint for /Actors
 
 `GET '/actors'`
+- @requires_auth('read:actors')
 - Fetches a list of actors
 - Request Arguments: None
 - Returns: list of actors contain id, name, age, gender, movie_id, movie
@@ -152,6 +220,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `GET/actors/<int:id>`
+- @requires_auth('read:actors')
 - Get a special actor by id
 - Request Arguments: `id` - integer
 - Returns: a actor object
@@ -171,6 +240,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `POST/actors`
+- @requires_auth('create:actors')
 - This endpoint creates a new actor
 - Request Body:
 ```json
@@ -201,6 +271,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `PATCH/actors/<int:id>`
+- @requires_auth('modify:actors')
 - This endpoint updates the information of an existing actor by `id`
 - Request Body:
 ```json
@@ -231,6 +302,7 @@ https://fsnd-capstone-4vmj.onrender.com/
 ```
 
 `DELETE/actor/<int:id>`
+- @requires_auth('delete:actors')
 - This endpoint deletes a actor by `id`
 - Request Arguments: `id` - integer
 - Returns: a single actor object deleted and message-status
@@ -250,3 +322,36 @@ https://fsnd-capstone-4vmj.onrender.com/
   "message": true
 }
 ```
+  # Testing
+All unittests store in test_app.py. 
+Include one test for expected success and error behavior for each endpoint using the unittest library.
+Includes tests demonstrating role-based access control, two per role.
+
+To run this file use:
+```
+dropdb FNSD_CAPSTONE_TEST
+createdb FNSD_CAPSTONE_TEST
+python unittest test_app.py
+```  
+The tests include one test for expected success and error behavior for each endpoint, and tests demonstrating role-based access control, 
+where all endpoints are tested with and without the correct authorization.
+Further, the file 'warranty-tracker-test-endpoints.postman_collection.json' contains postman tests containing tokens for specific roles.
+To run this file, follow the steps:
+1. Go to postman application.
+2. Load the collection --> Import -> directory/FSND CAPSTONE.postman_collection.json
+3. Click on the runner, select the collection and run all the tests.
+
+## THIRD-PARTY AUTHENTICATION
+#### auth.py
+Auth0 is set up and running. The following configurations are in a .env file which is exported by the app:
+- The Auth0 Domain Name
+- The JWT code signing secret
+- The Auth0 Client ID
+The JWT token contains the permissions for the 'Casting Assistant' and 'Casting Director' and 'Executive Producer'.
+
+## DEPLOYMENT
+The app is hosted live on heroku at the URL: 
+https://fsnd-capstone-4vmj.onrender.com/
+
+However, there is no frontend for this app yet, and it can only be presently used to authenticate using Auth0 by entering
+credentials and retrieving a fresh token to use with curl or postman.

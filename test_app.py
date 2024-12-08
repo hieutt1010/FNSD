@@ -4,7 +4,7 @@ import json
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from models import Movie, Actor, db as database
-from __init__ import create_app
+from app import create_app
 from dotenv import load_dotenv
     
 class FlaskAppTestCase(unittest.TestCase):
@@ -12,7 +12,7 @@ class FlaskAppTestCase(unittest.TestCase):
     load_dotenv()
     database_path = os.getenv('DATABASE_URL_TEST')
     # this token is full permission
-    bearer_token = 'bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8Njc0YmZjZjQ1ZWM4NGQzNzJhZDU2Zjg2IiwiYXVkIjoiRlNORF9JbWFnZSIsImlhdCI6MTczMzU1MjI0OCwiZXhwIjoxNzMzNTg4MjQ4LCJzY29wZSI6IiIsImF6cCI6ImF0V3JIODZXMHlOdFhlOEk0c0d5d016elRuOERFR3VNIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlOmFjdG9ycyIsImNyZWF0ZTptb3ZpZXMiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsIm1vZGlmeTphY3RvcnMiLCJtb2RpZnk6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.25UMFFj8GrthRgCHxvlYFgguyL4wwFS_orUgzoqoJDUeaPaV1Z48xoTuOtLf5YmGTXmSKOiMwRrbIpuQh66_c3S0R318C5xIum6iydalHXmDBjF3MKjs0jq-893WB8f2pLx-VB_9oXtoMUw62sqpqtUvFf72mUQud43ZTsNFlnB5jd4WbHsRtNnjQk6sldtaULYoPI-A1qqu6KJVe7Zl9pwxlr7wZB7lB7W5xfBMGO8qIm-9c7q8dX8UNkwmChoFj_zGdyA8CoU3naknne9GnU7YnpM_LsdIbDHa_Ax5h2poP_9sKkV95k2ohRagCJpjoq6_LFVOv2JWLTCNhTE_fA'
+    bearer_token_test =  os.getenv('BEARER_TOKEN_TEST')
     def setUp(self):
         """Define test variables and initialize app."""
         self.app = create_app({
@@ -21,9 +21,9 @@ class FlaskAppTestCase(unittest.TestCase):
         
         # setup for RBAC testing
         self.tokens = {
-            "casting_assistant": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjZmYTRiOGM3YjIyZGM3ZGM0ODAxN2M4IiwiYXVkIjoiRlNORF9JbWFnZSIsImlhdCI6MTczMzU1OTgxMSwiZXhwIjoxNzMzNTk1ODExLCJzY29wZSI6IiIsImF6cCI6ImF0V3JIODZXMHlOdFhlOEk0c0d5d016elRuOERFR3VNIiwicGVybWlzc2lvbnMiOlsicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.XEWL1ovEftV2Q_mShMgqULa944eOJu4RWtNHZSXKJ3ybiTXSEr07VQRz78oJYwpSb3nBgmEWn0H8ts6Jf753MXEfCeKM1sMZY1fFedMMq_Lk8RRMNaZKDwthI28kAPxB0ztNozjnWQHdssRJEZWSXF6iTAYAUe99cInQ9r_XvbX1RBShC32fHTuRzn9AP4yBh8mGRc1WmQvzuPNp2JN7BaQn07SBjQ3Dv76oxM4NeMdoMy5Yj19DEE2AlcTuxavCoSKZxKwNE2417a-4pz2CkZWA_qH5E4321KjtQSBQlKlbd8C79baR6tgfLx_LnjrS_7hVMA3J_A14rpZhemhb4Q",
-            "casting_director": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTYzMTUxNjcwNDQ4MDUyNDYxNDgiLCJhdWQiOiJGU05EX0ltYWdlIiwiaWF0IjoxNzMzNTU5ODc1LCJleHAiOjE3MzM1OTU4NzUsInNjb3BlIjoiIiwiYXpwIjoiYXRXckg4NlcweU50WGU4STRzR3l3TXp6VG44REVHdU0iLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGU6YWN0b3JzIiwiZGVsZXRlOmFjdG9ycyIsIm1vZGlmeTphY3RvcnMiLCJtb2RpZnk6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.NgtD4-g0oHA35w7I_Y69c4FVp8G-c3zicqGNbZLWMW9De64-J1b7C788vvLzez6rfi_KyWCOGelK-OqJ_zgr8TURaepnhlc3PIbtG5kWH3twZT-UmcYJQePGZ_0Tmrfr3hj56KLUtd0RHjQpqTxCyXfLpTTT3LIEgZop1gm4oozwdBZpapS55zw9CyZEx5QIhjrKNuMCd51Z1XdnWq89eQihn1LCJQPQOgvwPesCZ0UekwLdVa_zEBdGgzXt2D5BxV4GngJERfnRHwpr91AP0EVawyJgxM_siHdZ4sC8seTXgN3A0mLFY7ZewPMNK3VGvFg6dhNfdG7nP1K2f7wquw",
-            "executive_producer": "bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhKSkUzMXVCYmVrbFpnMDdxOVQxZyJ9.eyJpc3MiOiJodHRwczovL2hpZXV0dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8Njc0YmZjZjQ1ZWM4NGQzNzJhZDU2Zjg2IiwiYXVkIjoiRlNORF9JbWFnZSIsImlhdCI6MTczMzU1OTkzMywiZXhwIjoxNzMzNTk1OTMzLCJzY29wZSI6IiIsImF6cCI6ImF0V3JIODZXMHlOdFhlOEk0c0d5d016elRuOERFR3VNIiwicGVybWlzc2lvbnMiOlsiY3JlYXRlOmFjdG9ycyIsImNyZWF0ZTptb3ZpZXMiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsIm1vZGlmeTphY3RvcnMiLCJtb2RpZnk6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.eDhUPuahunYTdT_lRhy3wkPA3mpatC55OLV10jxf6ggIrsCgC_uaz2QjNrHpN2ZdFps61-l_rfvk34qS7UV84_pfrO6Ilt6XVbqWb8pV2jtuzQ8igMcjxXeBUUeZ0mwpWrC3EMBolb2n3b5QUQdgka5lD4kgk10dTFxtoKlksyDGNB5LJ4EjQzGHx5p1HpIrLOoB3KBaZLm5xpcyPzPu-vYhxqsovJQwYm3bh5pqVqh4_Y-zlNjRhsir4nbieBT6QWWlMZ7jpsDW4nhFZEKeyR32OYYXk2mCFVhygdU9WGSIELj7fGiI73J6oB1GcGQoHiRahvyFi9Oob6vt0GQDRw",
+            "casting_assistant":  os.getenv('CASTING_ASSISTANT'),
+            "casting_director": os.getenv('CASTING_DIRECTOR'),
+            "executive_producer": os.getenv('CASTING_PRODUCER')
         }
         
         with self.app.app_context():
