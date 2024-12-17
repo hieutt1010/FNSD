@@ -63,10 +63,6 @@ A token needs to be passed to each endpoint.
 The token can be retrived by following these steps:
   - Go to: https://hieutt.us.auth0.com/authorize?audience=FSND_Image&response_type=token&client_id=atWrH86W0yNtXe8I4sGywMzzTn8DEGuM&redirect_uri=https://127.0.0.1:5000/login-results
   - Login to each account below to get the token for each role
-# Role - Account(acc/pass):
-  - Casting Assistant: trtrghieu@gmail.com - Lucario1231@
-  - Casting Director: hieutt@gmail.com - Lucario1231@
-  - Executive Producer: hieutt101020@gmail.com - Lucario1231@
   - Link to get token store in Auth.txt
 
 ### Endpoint for Actors/Movies include permissions associated for each request
